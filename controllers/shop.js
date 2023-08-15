@@ -92,17 +92,16 @@ exports.postOrder = (req, res, next) => {
       return order.save();
     })
     .then((result) => {
-    //   req.user.clearCart();
-    // })
-    // .then(() => {
+      req.user.clearCart();
+    })
+    .then(() => {
       res.redirect("/orders");
     })
     .catch((err) => console.log(err));
 };
 
 exports.getOrders = (req, res, next) => {
-  // Order.find({ "user.userId": req.user._id })
-  req.user.getOrders()
+  Order.find({ "user.userId": req.user._id })
     .then((orders) => {
       res.render("shop/orders", {
         path: "/orders",
