@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // app.use((req, res, next) => {});
 app.use((req, res, next) => {
   User.findById(process.env.MONGO_ID).then((user) => {
-    req.user = user;
+    req.user = new User(user.name, user.email, user.cart, user._id);
     next();
   });
 });
