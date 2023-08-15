@@ -10,7 +10,7 @@ dotenv.config();
 // const mongoConnect = require("./util/database").mongoConnect;
 const bodyParser = require("body-parser");
 
-// const User = require("./models/user");
+const User = require("./models/user");
 
 const errorController = require("./controllers/error");
 
@@ -26,12 +26,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
 // app.use((req, res, next) => {});
-// app.use((req, res, next) => {
-//   User.findById(process.env.MONGO_ID).then((user) => {
-//     req.user = new User(user.name, user.email, user.cart, user._id);
-//     next();
-//   });
-// });
+app.use((req, res, next) => {
+  User.findById(process.env.MONGO_ID).then((user) => {
+    req.user = user;
+    next();
+  });
+});
 
 app.use("/admin", adminRoutes);
 app.use(shopRoutes);
@@ -43,6 +43,18 @@ app.use(errorController.get404);
 // });
 mongoose.connect(process.env.MONGO_URL)
 .then((result) => {
+  User.findOne().then((user) => {
+    if (!user) {
+      const user = new User({
+        name: "Arsh",
+        email: "arsh@gmail.com",
+        cart: {
+          items: [],
+        },
+      });
+      user.save();
+    }
+  });
   app.listen(3000);
 })
 .catch((err) => {
