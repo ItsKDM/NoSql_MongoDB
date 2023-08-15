@@ -1,14 +1,19 @@
 const path = require("path");
 
 const express = require("express");
-const bodyParser = require("body-parser");
+const app = express();
+const cors = require("cors");
+
+const dotenv = require("dotenv");
+dotenv.config();
 const mongoConnect = require("./util/database").mongoConnect;
+const bodyParser = require("body-parser");
 
 const User = require("./models/user");
 
 const errorController = require("./controllers/error");
 
-const app = express();
+app.use(cors());
 
 app.set("view engine", "ejs");
 app.set("views", "views");
@@ -21,7 +26,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // app.use((req, res, next) => {});
 app.use((req, res, next) => {
-  User.findById("64db930485517720f3540d88").then((user) => {
+  User.findById(process.env.MONGO_ID).then((user) => {
     req.user = user;
     next();
   });
