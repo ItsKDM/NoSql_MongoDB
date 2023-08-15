@@ -1,18 +1,17 @@
 const path = require("path");
 
 const express = require("express");
-const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose")
 
+const app = express();
 const dotenv = require("dotenv");
 dotenv.config();
 // const mongoConnect = require("./util/database").mongoConnect;
 const bodyParser = require("body-parser");
 
-const User = require("./models/user");
-
 const errorController = require("./controllers/error");
+const User = require("./models/user");
 
 app.use(cors());
 

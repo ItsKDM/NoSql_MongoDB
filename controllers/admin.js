@@ -42,10 +42,9 @@ exports.getProducts = (req, res, next) => {
         path: "/admin/products",
       });
     })
-    .catch((err) =>
-      console.log(err)
-    );
+    .catch((err) => console.log(err));
 };
+
 exports.getEditProduct = (req, res, next) => {
   const editMode = req.query.edit;
   if (!editMode) {
@@ -66,6 +65,7 @@ exports.getEditProduct = (req, res, next) => {
     })
     .catch((err) => console.log(err));
 };
+
 exports.postEditProduct = (req, res, next) => {
   const prodId = req.body.productId;
   const updatedTitle = req.body.title;
@@ -86,6 +86,7 @@ exports.postEditProduct = (req, res, next) => {
     })
     .catch((err) => console.log(err));
 };
+
 exports.postDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
   Product.findByIdAndRemove(prodId)
